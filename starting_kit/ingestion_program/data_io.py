@@ -54,7 +54,8 @@ def read_as_df(basename, type="train"):
     	
     print('Reading '+ basename + '_' + type+ ' from AutoML format')
     feat_name = pd.read_csv(basename + '_feat.name', header=None)
-    label_name = pd.read_csv(basename + '_label.name', header=None, names =['Class'])
+    #label_name = pd.read_csv(basename + '_label.name', header=None, names =['Class'])
+
     X = pd.read_csv(basename + '_' + type + '.data', sep=' ', names = np.ravel(feat_name))
     [patnum, featnum] = X.shape
     print('Number of examples = %d' % patnum)
@@ -72,16 +73,17 @@ def read_as_df(basename, type="train"):
         	classnum=np.amax(Y)+1
         	numerical_target=pd.DataFrame({'Class':Y[:,0].astype(int)})
         else:
-        	Y = pd.read_csv(solution_file, sep=' ', names = np.ravel(label_name))
+        	Y = pd.read_csv(solution_file, sep=' ')
         	label_range = np.arange(classnum).transpose()         # This is just a column vector [[0], [1], [2]]
         	numerical_target = Y.dot(label_range)                 # This is a column vector of dim patnum with numerical categories
         #print(numerical_target)
         # Here we add the target values as a last column, this is convenient to use seaborn
         # Look at http://seaborn.pydata.org/tutorial/axis_grids.html for other ideas
         #label_name = pd.DataFrame(['0', '1', '2'], columns=['col'])
-        print(label_name)
-        nominal_target = pd.Series(np.array(label_name)[numerical_target].ravel()) # Same with nominal categories
-        print('Number of classes = %d' % classnum)
+        #print(label_name)
+        #nominal_target = pd.Series(np.array(label_name)[numerical_target].ravel()) # Same with nominal categories
+        nominal_target = pd.Series(Y.ravel()) # Same with nominal categories
+        #print('Number of classes = %d' % classnum)
         XY = X.assign(target=nominal_target.values)          # Add the last column
     
     return XY

@@ -1,33 +1,25 @@
-This is a sample starting kit for the Plankton challenge. 
+This is a sample starting kit for the Xporters challenge. 
 
-According to [NRMA15], a link has been found between the quality of water and the presence of plankton in said water. As water quality increases, the abundance and diversity of plankton does as well. The aim of our project is to build a plankton classifier to assess water quality.
-
-We use for this problem the Bering Sea dataset, an in situ plankton dataset published in May 2019 by Kaichang Cheng [Che19]. This datset contains 7 classes with an even spread.
+The aim of the challenge is to provide a prediction of the flow traffic volume of NY city. The features are the date, the weather, temperature...all features are given into sample_exemple.
+The data has been recorded between 2012 ans 2018
 
 References and credits: 
-- [NRMA15] A. Nair, J.K. Reshma, A. Mathew, and A. Ashok. Effect of water quality on phytoplankton abundance in selected ponds of nedumangad block panchayat, kerala. Emer Life Sci Res, 2015.
-- [Che19] K. Cheng. Bering sea dataset. https://doi.org/10.6084/m9.figshare.8146283.v3, 2019.
+R. A. Fisher. The use of multiple measurements in taxonomic problems. Annual Eugenics, 7, Part II, 179-188 (1936). 
 
 Prerequisites:
-Install Anaconda Python 3.6.6 
-You may create a conda environment, with is named python3 to match the '!source activate python3' commands in the notebook.
+Install Anaconda Python 3.7.3 
 
 Usage:
 
 (1) If you are a challenge participant:
 
-- The images directory contains some examples of raw data.
-
 - The three files sample_*_submission.zip are sample submissions ready to go!
 
-- The file README.ipynb contains step-by-step instructions on how to create a sample submission for the Plankton challenge. It is in same folder as the README.md.
-
+- The file README.ipynb contains step-by-step instructions on how to create a sample submission for the Xporters challenge. 
 At the prompt type:
-jupyter notebook README.ipynb
+jupyter-notebook README.ipynb
 
-Then you can run the notebook cell by cell.
-
-- modify sample_code_submission/model.py to provide a better model
+- modify sample_code_submission to provide a better model
 
 - zip the contents of sample_code_submission (without the directory, but with metadata), or
 

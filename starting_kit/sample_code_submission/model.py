@@ -3,30 +3,24 @@ Sample predictive model.
 You must supply at least 4 methods:
 - fit: trains the model.
 - predict: uses the model to perform predictions.
-- save: saves the model.
-- load: reloads the model.
 '''
-import pickle
 import numpy as np   # We recommend to use numpy arrays
 from os.path import isfile
 from sklearn.base import BaseEstimator
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestRegressor
 
 class model (BaseEstimator):
-    def __init__(self,classifier=DecisionTreeClassifier(max_depth=10, max_features = 'sqrt',random_state=42)):
+    def __init__(self):
         '''
         This constructor is supposed to initialize data members.
         Use triple quotes for function documentation. 
         '''
-        
-        # Customized classifier among decision tree, KNN, ...
-        self.classifier = classifier
-        
         self.num_train_samples=0
         self.num_feat=1
         self.num_labels=1
         self.is_trained=False
-
+        self.mod = RandomForestRegressor(max_depth=20, random_state=0,  n_estimators=100) # Initalizing the model 
+    
     def fit(self, X, y):
         '''
         This function should train the model parameters.
@@ -49,11 +43,8 @@ class model (BaseEstimator):
         print("FIT: dim(y)= [{:d}, {:d}]".format(num_train_samples, self.num_labels))
         if (self.num_train_samples != num_train_samples):
             print("ARRGH: number of samples in X and y do not match!")
-            
-        if self.classifier is not None:
-            self.classifier.fit(X,y)
-            
-        self.is_trained=True
+        self.mod.fit(X,y)
+        self.is_trained = True
 
     def predict(self, X):
         '''
@@ -75,23 +66,17 @@ class model (BaseEstimator):
         print("PREDICT: dim(y)= [{:d}, {:d}]".format(num_test_samples, self.num_labels))
         y = np.zeros([num_test_samples, self.num_labels])
         # If you uncomment the next line, you get pretty good results for the Iris data :-)
-        #y = np.round(X[:,3])
-        
-        if self.classifier is not None:
-            y = self.classifier.predict(X)
-        
+        y = self.mod.predict(X)
         return y
 
-    def save(self, path="./"):
-        file = open(path + '_model.pickle', "wb")
-        pickle.dump(self, file)
-        file.close()
-
-    def load(self, path="./"):
-        modelfile = path + '_model.pickle'
-        if isfile(modelfile):
-            with open(modelfile, 'rb') as f:
-                self = pickle.load(f)
-            print("Model reloaded from: " + modelfile)
+    def save(self, outname='model'):
+        ''' Placeholder function.
+            Save the trained model to avoid re-training in the future.
+        '''
+        pass
         
-        return self
+    def load(self):
+        ''' Placeholder function.
+            Load a previously saved trained model to avoid re-training.
+        '''
+        pass
