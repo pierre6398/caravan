@@ -9,6 +9,10 @@ from os.path import isfile
 from sklearn.base import BaseEstimator
 from sklearn.svm import SVR
 
+
+#score scross validation 0.66 (+-0.1)
+
+
 class model2 (BaseEstimator):
     def __init__(self):
         '''

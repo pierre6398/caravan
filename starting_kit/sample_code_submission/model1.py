@@ -9,6 +9,8 @@ from os.path import isfile
 from sklearn.base import BaseEstimator
 from sklearn.linear_model import LinearRegression 
 
+
+# cross validation score  -0.11 (+/- 1.09)
 class model1 (BaseEstimator):
     def __init__(self):
         '''

@@ -9,6 +9,9 @@ from os.path import isfile
 from sklearn.base import BaseEstimator
 from sklearn import linear_model
 
+# score cross-validation -0.27 (+/- 1.76)
+
+
 #model herite de BaseEstimator
 class model3 (BaseEstimator):
     def __init__(self):
