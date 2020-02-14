@@ -7,9 +7,9 @@ You must supply at least 4 methods:
 import numpy as np   # We recommend to use numpy arrays
 from os.path import isfile
 from sklearn.base import BaseEstimator
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import PassiveAggressiveClassifier
 
-class model (BaseEstimator):
+class model5 (BaseEstimator):
     def __init__(self):
         '''
         This constructor is supposed to initialize data members.
@@ -19,7 +19,7 @@ class model (BaseEstimator):
         self.num_feat=1
         self.num_labels=1
         self.is_trained=False
-        self.mod = RandomForestRegressor(max_depth=20, random_state=0,  n_estimators=100) # Initalizing the model 
+        self.mod = PassiveAggressiveClassifier() # Initalizing the model 
     
     def fit(self, X, y):
         '''
