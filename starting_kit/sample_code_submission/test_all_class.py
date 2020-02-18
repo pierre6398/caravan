@@ -1,5 +1,3 @@
-
-
 '''
 Sample predictive model.
 You must supply at least 4 methods:
