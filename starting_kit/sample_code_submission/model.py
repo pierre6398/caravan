@@ -9,6 +9,11 @@ from os.path import isfile
 from sklearn.base import BaseEstimator
 from sklearn.ensemble import RandomForestRegressor
 
+
+
+
+#CV score (95 perc. CI): 0.95 (+/- 0.00)
+
 #model herite de BaseEstimator
 class model (BaseEstimator):
     def __init__(self):

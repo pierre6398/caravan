@@ -1,3 +1,5 @@
+
+
 '''
 Sample predictive model.
 You must supply at least 4 methods:
@@ -7,13 +9,11 @@ You must supply at least 4 methods:
 import numpy as np   # We recommend to use numpy arrays
 from os.path import isfile
 from sklearn.base import BaseEstimator
-from sklearn import linear_model
-
-# score cross-validation -0.27 (+/- 1.76)
+from sklearn.ensemble import GradientBoostingRegressor
 
 
-#model herite de BaseEstimator
-class model3 (BaseEstimator):
+# CV score (95 perc. CI): 0.92 (+/- 0.01)
+class model7 (BaseEstimator):
     def __init__(self):
         '''
         This constructor is supposed to initialize data members.
@@ -23,9 +23,8 @@ class model3 (BaseEstimator):
         self.num_feat=1
         self.num_labels=1
         self.is_trained=False
-        self.mod =linear_model.Lasso(alpha=0.1)# Initalizing the model 
-       
-
+        self.mod = GradientBoostingRegressor(random_state=0, n_estimators=100)# Initalizing the model 
+    
     def fit(self, X, y):
         '''
         This function should train the model parameters.

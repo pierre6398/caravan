@@ -7,13 +7,12 @@ You must supply at least 4 methods:
 import numpy as np   # We recommend to use numpy arrays
 from os.path import isfile
 from sklearn.base import BaseEstimator
-from sklearn import linear_model
-
-# score cross-validation -0.27 (+/- 1.76)
+from sklearn import tree
 
 
-#model herite de BaseEstimator
-class model3 (BaseEstimator):
+# CV score (95 perc. CI): 0.91 (+/- 0.01)
+#tres rapide
+class model6 (BaseEstimator):
     def __init__(self):
         '''
         This constructor is supposed to initialize data members.
@@ -23,9 +22,8 @@ class model3 (BaseEstimator):
         self.num_feat=1
         self.num_labels=1
         self.is_trained=False
-        self.mod =linear_model.Lasso(alpha=0.1)# Initalizing the model 
-       
-
+        self.mod = tree.DecisionTreeRegressor()# Initalizing the model 
+    
     def fit(self, X, y):
         '''
         This function should train the model parameters.
@@ -42,7 +40,7 @@ class model3 (BaseEstimator):
         '''
         self.num_train_samples = X.shape[0]
         if X.ndim>1: self.num_feat = X.shape[1]
-       # print("FIT: dim(X)= [{:d}, {:d}]".format(self.num_train_samples, self.num_feat))
+      #  print("FIT: dim(X)= [{:d}, {:d}]".format(self.num_train_samples, self.num_feat))
         num_train_samples = y.shape[0]
         if y.ndim>1: self.num_labels = y.shape[1]
         #print("FIT: dim(y)= [{:d}, {:d}]".format(num_train_samples, self.num_labels))
