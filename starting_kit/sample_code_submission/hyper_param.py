@@ -25,7 +25,18 @@ score_dir = 'scoring_program/'
 data_name='xporters'
 trained_model_name = model_dir + data_name
 
+#impossible de comprendre le fonctionement des methodes
 def grid(model,data_name= 'xporters',data_dir='./input_data/'):
+    temps_a=time.time()
+    D = DataManager(data_name, data_dir , replace_missing=True)
+    M=model()
+    X_train = D.data['X_train']
+    Y_train = D.data['Y_train']
+    #if not(M.is_trained) : M.fit(X_train, Y_train)
+    param = M.get_params()
+    print(param)
+    
+def random(model,data_name= 'xporters',data_dir='./input_data/'):
     temps_a=time.time()
     D = DataManager(data_name, data_dir , replace_missing=True)
     M=model()
