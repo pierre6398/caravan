@@ -33,7 +33,7 @@ def grid(model,data_name= 'xporters',data_dir='./input_data/'):
     X_train = D.data['X_train']
     Y_train = D.data['Y_train']
     #if not(M.is_trained) : M.fit(X_train, Y_train)
-    param = M.get_params()
+    param = M.mod.get_params()
     print(param)
     
 def random(model,data_name= 'xporters',data_dir='./input_data/'):
@@ -43,5 +43,5 @@ def random(model,data_name= 'xporters',data_dir='./input_data/'):
     X_train = D.data['X_train']
     Y_train = D.data['Y_train']
     #if not(M.is_trained) : M.fit(X_train, Y_train)
-    param = M.get_params()
+    param = M.mod.get_params()
     print(param)
