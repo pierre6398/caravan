@@ -5,6 +5,7 @@ from sklearn.base import BaseEstimator
 from data_manager import DataManager
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import make_scorer
+from sklearn.model_selection import RandomizedSearchCV
 
 import scipy as sp
 from data_io import write
@@ -50,4 +51,8 @@ def random(model,data_name= 'xporters',data_dir='./input_data/'):
     Y_train = D.data['Y_train']
     #if not(M.is_trained) : M.fit(X_train, Y_train)
     param = M.mod.get_params()
-    print(param)
+    res = RandomizedSearchCV(M.mod, {"max_depth":[1,2,3,4,5,6,7,8,9],"random_state":[0], "n_estimators":[100]})
+    res.fit(X_train,Y_train)
+    print(res.best_params_)
+    
+    
