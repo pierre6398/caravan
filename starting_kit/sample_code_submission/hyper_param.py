@@ -5,6 +5,7 @@ from sklearn.base import BaseEstimator
 from data_manager import DataManager
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import make_scorer
+from sklearn.model_selection import RandomizedSearchCV
 
 import scipy as sp
 from data_io import write
@@ -25,6 +26,7 @@ score_dir = 'scoring_program/'
 data_name='xporters'
 trained_model_name = model_dir + data_name
 
+from sklearn.model_selection import GridSearchCV
 #impossible de comprendre le fonctionement des methodes
 def grid(model,data_name= 'xporters',data_dir='./input_data/'):
     temps_a=time.time()
@@ -33,8 +35,13 @@ def grid(model,data_name= 'xporters',data_dir='./input_data/'):
     X_train = D.data['X_train']
     Y_train = D.data['Y_train']
     #if not(M.is_trained) : M.fit(X_train, Y_train)
-    param = M.get_params()
-    print(param)
+    #param = M.mod.get_params()
+    #for key in param:
+    #    param[key] = np.empty(0)
+    #print(param)
+    GSCV = GridSearchCV(M.mod, {"max_depth":[1,2,3,4,5,6,7,8,9],"random_state":[0], "n_estimators":[100]})
+    GSCV.fit(X_train,Y_train)
+    print(GSCV.best_params_)
     
 def random(model,data_name= 'xporters',data_dir='./input_data/'):
     temps_a=time.time()
@@ -43,5 +50,9 @@ def random(model,data_name= 'xporters',data_dir='./input_data/'):
     X_train = D.data['X_train']
     Y_train = D.data['Y_train']
     #if not(M.is_trained) : M.fit(X_train, Y_train)
-    param = M.get_params()
-    print(param)
+    param = M.mod.get_params()
+    res = RandomizedSearchCV(M.mod, {"max_depth":[1,2,3,4,5,6,7,8,9],"random_state":[0], "n_estimators":[100]})
+    res.fit(X_train,Y_train)
+    print(res.best_params_)
+    
+    
