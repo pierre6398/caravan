@@ -23,7 +23,7 @@ class model7 (BaseEstimator):
         self.num_feat=1
         self.num_labels=1
         self.is_trained=False
-        self.mod = GradientBoostingRegressor(max_depth=4,random_state=0, n_estimators=100)# Initalizing the model 
+        self.mod = GradientBoostingRegressor(max_depth=9,random_state=0, n_estimators=100)# Initalizing the model 
     
     def fit(self, X, y):
         '''
