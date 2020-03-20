@@ -6,28 +6,25 @@ You must supply at least 4 methods:
 '''
 import numpy as np   # We recommend to use numpy arrays
 from os.path import isfile
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.base import BaseEstimator
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.feature_selection import VarianceThreshold
+from sklearn.ensemble import GradientBoostingRegressor
+import matplotlib.pyplot as plt
 
-
-
-
-#CV score (95 perc. CI): 0.95 (+/- 0.00)
-
-#model herite de BaseEstimator
 class model (BaseEstimator):
     def __init__(self):
         '''
         This constructor is supposed to initialize data members.
         Use triple quotes for function documentation. 
         '''
-        self.num_train_samples=0
-        self.num_feat=1
+        self.num_train_samples= 38563
+        self.num_feat=59
         self.num_labels=1
         self.is_trained=False
-        self.mod = RandomForestRegressor(max_depth=20, random_state=0,  n_estimators=100) # Initalizing the model 
-       
-
+        self.preprocess = VarianceThreshold() # Ex. PCA()
+        self.mod = GradientBoostingRegressor(max_depth=9,random_state=0, n_estimators=100) # Ex. DecisionTreeRegressor()
+    
     def fit(self, X, y):
         '''
         This function should train the model parameters.
@@ -42,15 +39,11 @@ class model (BaseEstimator):
         Use data_converter.convert_to_num() to convert to the category number format.
         For regression, labels are continuous values.
         '''
-        self.num_train_samples = X.shape[0]
         if X.ndim>1: self.num_feat = X.shape[1]
-        print("FIT: dim(X)= [{:d}, {:d}]".format(self.num_train_samples, self.num_feat))
-        num_train_samples = y.shape[0]
         if y.ndim>1: self.num_labels = y.shape[1]
-        print("FIT: dim(y)= [{:d}, {:d}]".format(num_train_samples, self.num_labels))
-        if (self.num_train_samples != num_train_samples):
-            print("ARRGH: number of samples in X and y do not match!")
-        self.mod.fit(X,y)
+
+        X_preprocess = self.preprocess.fit_transform(X)
+        self.mod.fit(X_preprocess, y)
         self.is_trained = True
 
     def predict(self, X):
@@ -67,23 +60,33 @@ class model (BaseEstimator):
         '''
         num_test_samples = X.shape[0]
         if X.ndim>1: num_feat = X.shape[1]
-        print("PREDICT: dim(X)= [{:d}, {:d}]".format(num_test_samples, num_feat))
-        if (self.num_feat != num_feat):
-            print("ARRGH: number of features in X does not match training data!")
-        print("PREDICT: dim(y)= [{:d}, {:d}]".format(num_test_samples, self.num_labels))
         y = np.zeros([num_test_samples, self.num_labels])
-        # If you uncomment the next line, you get pretty good results for the Iris data :-)
-        y = self.mod.predict(X)
+
+
+        X_preprocess = self.preprocess.transform(X)
+        y = self.mod.predict(X_preprocess)
         return y
 
-    def save(self, outname='model'):
-        ''' Placeholder function.
-            Save the trained model to avoid re-training in the future.
-        '''
+    def save(self, path="./"):
         pass
-        
-    def load(self):
-        ''' Placeholder function.
-            Load a previously saved trained model to avoid re-training.
-        '''
+
+    def load(self, path="./"):
         pass
+
+
+def test():
+    # Load votre model
+    mod = model()
+    # 1 - créer un data X_random et y_random fictives: utiliser https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.random.rand.html
+    X_random = np.random.rand(38563,60)
+    Y_random = np.random.rand(38563)
+    # 2 - Tester l'entrainement avec mod.fit(X_random, y_random)
+    mod.fit(X_random, Y_random)
+    # 3 - Test la prediction: mod.predict(X_random)
+    Ytest=mod.predict(X_random)
+    # Pour tester cette fonction *test*, il suffit de lancer la commande ```python sample_code_submission/model.py```
+    plt.scatter(Ytest, Y_random, alpha =0.5, s = 1)
+    plt.show()
+    
+if __name__ == "__main__":
+    test()
