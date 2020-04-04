@@ -6,10 +6,10 @@ You must supply at least 4 methods:
 '''
 import numpy as np   # We recommend to use numpy arrays
 from os.path import isfile
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.base import BaseEstimator
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.preprocessing import RobustScaler
 import matplotlib.pyplot as plt
 
 class model (BaseEstimator):
@@ -22,9 +22,10 @@ class model (BaseEstimator):
         self.num_feat=59
         self.num_labels=1
         self.is_trained=False
-        self.preprocess = VarianceThreshold() # Ex. PCA()
-        self.mod = GradientBoostingRegressor(max_depth=9,random_state=0, n_estimators=100) # Ex. DecisionTreeRegressor()
-    
+        self.preprocess = VarianceThreshold(threshold=0.0)
+        self.preprocess2 = RobustScaler(with_centering=True,with_scaling=True,quantile_range=(25.0,75.0),copy=False)
+        self.mod = GradientBoostingRegressor(learning_rate=0.125, max_depth=10, min_samples_leaf=3, n_estimators=120)
+   
     def fit(self, X, y):
         '''
         This function should train the model parameters.
@@ -43,7 +44,8 @@ class model (BaseEstimator):
         if y.ndim>1: self.num_labels = y.shape[1]
 
         X_preprocess = self.preprocess.fit_transform(X)
-        self.mod.fit(X_preprocess, y)
+        X_preprocess2 = self.preprocess2.fit_transform(X_preprocess)
+        self.mod.fit(X_preprocess2, y)
         self.is_trained = True
 
     def predict(self, X):
@@ -64,7 +66,8 @@ class model (BaseEstimator):
 
 
         X_preprocess = self.preprocess.transform(X)
-        y = self.mod.predict(X_preprocess)
+        X_preprocess2 = self.preprocess2.transform(X_preprocess)
+        y = self.mod.predict(X_preprocess2)
         return y
 
     def save(self, path="./"):
