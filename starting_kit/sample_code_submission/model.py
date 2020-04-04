@@ -6,7 +6,6 @@ You must supply at least 4 methods:
 '''
 import numpy as np   # We recommend to use numpy arrays
 from os.path import isfile
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.base import BaseEstimator
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.ensemble import GradientBoostingRegressor
